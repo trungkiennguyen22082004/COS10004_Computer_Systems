@@ -1,4 +1,4 @@
-// By BLOODMOON
+// By MOON
 
 MOV R0, #1
 ADD R1, R0, #8
