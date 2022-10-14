@@ -1,4 +1,4 @@
-// By BLOODMOON
+// By MOON
 
 MOV R0, #99
 MOV R1, #77
