@@ -1,4 +1,4 @@
-// By BLOODMOON        
+// By MOON        
         
         MOV R0, #15
   loop: STR R0, .WriteUnsignedNum
