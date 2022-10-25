@@ -1,41 +1,53 @@
 // By MOON
-      MOV R0, #.white
-      MOV R1, #.red
-      PUSH {R3, R4}
-      MOV R3, #t1
-      STR R3, .WriteString
-      LDR R6, .InputNum
-      MOV R4, #t2
-      STR R4, .WriteString
-      LDR R7, .InputNum
-      POP {R3, R4}
-flashon:
-      STR R1, .Pixel335
-      LDR R3, .Time
-ondelay:
-      LDR R4, .Time
-      SUB R5, R4, R3
-      CMP R5, #1
-      BLT ondelay
-      STR R0, .Pixel335
-      LDR R3, .Time
-      ADD R2, R2, #1
-      CMP R2, R6
-      BEQ delay
-offdelay:
-      LDR R4, .Time
-      SUB R5,R4,R3
-      CMP R5, #1
-      BLT offdelay
-      B flashon
-delay:
-      LDR R4, .Time
-      SUB R5,R4,R3
-      CMP R5, R7
-      BLT delay
-      LDR R3, .Time
-      MOV R2, #0
-      B offdelay
+      MOV R0, #t1
+      STR R0, .WriteString
+      LDR R0, .InputNum
+      MOV R1, #t2
+      STR R1, .WriteString
+      LDR R1, .InputNum
+flash:
+      BL oneseconddelay
+      BL reddraw
+      BL oneseconddelay
+      BL whitedraw
+      ADD R3, R3, #1
+      CMP R3, R0
+      BLT flash
+      BL subdelay
+      MOV R3, #0
+      B flash
       HALT
+reddraw:
+      PUSH {R4}
+      MOV R4, #.red
+      STR R4, .Pixel335
+      POP {R4}
+      RET
+whitedraw:
+      PUSH {R4}
+      MOV R4, #.white
+      STR R4, .Pixel335
+      POP {R4}
+      RET
+oneseconddelay:
+      PUSH {R4, R5, R6}
+      LDR R6, .Time
+loopa:
+      LDR R4, .Time
+      SUB R5, R4, R6
+      CMP R5, #1
+      BLT loopa
+      POP {R4, R5, R6}
+      RET
+subdelay:
+      PUSH {R4, R5, R6}
+      LDR R6, .Time
+loopb:
+      LDR R4, .Time
+      SUB R5, R4, R6
+      CMP R5, R1
+      BLT loopb
+      POP {R4, R5, R6}
+      RET
 t1:   .ASCIZ "Enter the number of rapid 1 second flashes before the pause:\n"
 t2:   .ASCIZ "Enter the pause time (in secs) between each set of rapid flashes:\n"
